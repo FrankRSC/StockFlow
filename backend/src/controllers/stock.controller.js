@@ -52,7 +52,7 @@ exports.updateStock = async (req, res) => {
       const newMovement = new Movement({
         type: 'adjustment',
         product,
-        quantity: Math.abs(diff),
+        quantity: diff,
         originBranch: diff < 0 ? branch : null,
         destinationBranch: diff > 0 ? branch : null
       });
