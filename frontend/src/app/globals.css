@@ -208,3 +208,34 @@ select:focus {
   max-width: 500px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.badge-in {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.badge-out {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.badge-transfer {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.badge-adjustment {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
