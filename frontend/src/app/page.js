@@ -1,66 +1,40 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div>
+      <div style={{ marginBottom: "2rem" }}>
+        <h1 className="page-title">Welcome to StockFlow</h1>
+        <p style={{ color: "var(--gray-text)", fontSize: "1.125rem" }}>
+          Your simple inventory and warehouse management system.
+        </p>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem", marginTop: "3rem" }}>
+        <div style={{ border: "1px solid var(--border)", padding: "2rem", borderRadius: "0.5rem", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          <div>
+            <h2 style={{ color: "var(--primary)", marginBottom: "1rem", fontSize: "1.5rem" }}>Products</h2>
+            <p style={{ color: "var(--gray-text)", marginBottom: "2rem", lineHeight: "1.6" }}>
+              Manage your product catalog, track SKUs, update pricing, and categorize items effectively.
+            </p>
+          </div>
+          <Link href="/products" className="btn btn-primary" style={{ textAlign: "center", display: "block" }}>
+            Go to Products
+          </Link>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div style={{ border: "1px solid var(--border)", padding: "2rem", borderRadius: "0.5rem", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          <div>
+            <h2 style={{ color: "var(--primary)", marginBottom: "1rem", fontSize: "1.5rem" }}>Branches</h2>
+            <p style={{ color: "var(--gray-text)", marginBottom: "2rem", lineHeight: "1.6" }}>
+              Monitor warehouse locations, track multiple store branches, and optimize stock distribution.
+            </p>
+          </div>
+          <Link href="/branches" className="btn btn-primary" style={{ textAlign: "center", display: "block" }}>
+            Go to Branches
+          </Link>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
