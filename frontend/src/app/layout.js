@@ -36,6 +36,12 @@ export default function RootLayout({ children }) {
               <Link href="/branches" className="nav-link">
                 Branches
               </Link>
+              <Link href="/stocks" className="nav-link">
+                Stocks
+              </Link>
+              <Link href="/movements" className="nav-link">
+                Movements
+              </Link>
             </nav>
           </aside>
           <main className="main-content">

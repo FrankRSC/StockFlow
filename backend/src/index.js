@@ -13,6 +13,9 @@ app.use(cors());
 app.use("/api/example", require('./routes/example.routes'));
 app.use("/api/products", require('./routes/product.routes'));
 app.use("/api/branches", require('./routes/branch.routes'));
+app.use("/api/movements", require('./routes/movement.routes'));
+app.use("/api/stocks", require('./routes/stock.routes'));
+
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
