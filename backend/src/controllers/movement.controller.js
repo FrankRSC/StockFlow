@@ -44,13 +44,6 @@ movementCtrl.createMovement = async (req, res) => {
       if (!branchExists) {
         return res.status(404).json({ message: 'Destination branch not found' });
       }
-
-      // Increase stock
-      await Stock.findOneAndUpdate(
-        { product, branch: destinationBranch },
-        { $inc: { quantity: quantity } },
-        { upsert: true, new: true }
-      );
     } else if (type === 'out') {
       if (!originBranch) {
         return res.status(400).json({ message: 'Origin branch is required for exit' });
@@ -58,17 +51,6 @@ movementCtrl.createMovement = async (req, res) => {
       const branchExists = await Branch.findById(originBranch);
       if (!branchExists) {
         return res.status(404).json({ message: 'Origin branch not found' });
-      }
-
-      // Decrease stock
-      const updatedStock = await Stock.findOneAndUpdate(
-        { product, branch: originBranch, quantity: { $gte: quantity } },
-        { $inc: { quantity: -quantity } },
-        { new: true }
-      );
-
-      if (!updatedStock) {
-        return res.status(400).json({ message: 'Insufficient stock in origin branch' });
       }
     } else if (type === 'transfer') {
       if (!originBranch || !destinationBranch) {
@@ -83,33 +65,16 @@ movementCtrl.createMovement = async (req, res) => {
       if (!originExists || !destExists) {
         return res.status(404).json({ message: 'One or both branches not found' });
       }
-
-      // Decrease stock from origin
-      const updatedOriginStock = await Stock.findOneAndUpdate(
-        { product, branch: originBranch, quantity: { $gte: quantity } },
-        { $inc: { quantity: -quantity } },
-        { new: true }
-      );
-
-      if (!updatedOriginStock) {
-        return res.status(400).json({ message: 'Insufficient stock in origin branch' });
-      }
-
-      // Increase stock in destination
-      await Stock.findOneAndUpdate(
-        { product, branch: destinationBranch },
-        { $inc: { quantity: quantity } },
-        { upsert: true, new: true }
-      );
     }
 
-    // Create movement record
+    // Create movement record with status pending
     const newMovement = new Movement({
       type,
       product,
       quantity,
       originBranch: type === 'in' ? null : originBranch,
-      destinationBranch: type === 'out' ? null : destinationBranch
+      destinationBranch: type === 'out' ? null : destinationBranch,
+      status: 'pending'
     });
 
     await newMovement.save();

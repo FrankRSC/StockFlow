@@ -6,7 +6,9 @@ const movementSchema = new Schema({
   product: { type: ObjectId, ref: 'Product', required: true },
   quantity: { type: Number, required: true },
   originBranch: { type: ObjectId, ref: 'Branch' },
-  destinationBranch: { type: ObjectId, ref: 'Branch' }
+  destinationBranch: { type: ObjectId, ref: 'Branch' },
+  status: { type: String, enum: ['pending', 'processed', 'failed'], default: 'pending' },
+  failureReason: { type: String }
 }, {
   timestamps: true
 });
