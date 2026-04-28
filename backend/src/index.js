@@ -17,6 +17,9 @@ app.use("/api/movements", require('./routes/movement.routes'));
 app.use("/api/stocks", require('./routes/stock.routes'));
 
 
+const startWorker = require('./worker');
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
+  startWorker();
 })

@@ -56,7 +56,20 @@ export default function MovementsPage() {
     };
 
     fetchData();
+
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch("/api/movements");
+        const data = await res.json();
+        setMovements(data);
+      } catch (err) {
+        console.error("Error polling movements:", err);
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
   }, []);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -160,7 +173,7 @@ export default function MovementsPage() {
         </p>
       ) : (
         <Table
-          headers={["Fecha", "Producto", "Tipo", "Origen", "Destino", "Cantidad"]}
+          headers={["Fecha", "Producto", "Tipo", "Origen", "Destino", "Cantidad", "Estado"]}
           data={movements}
           renderRow={(mov) => (
             <>
@@ -174,9 +187,19 @@ export default function MovementsPage() {
               <td>{mov.originBranch?.name || getBranchName(mov.originBranch?._id || mov.originBranch)}</td>
               <td>{mov.destinationBranch?.name || getBranchName(mov.destinationBranch?._id || mov.destinationBranch)}</td>
               <td>{mov.quantity}</td>
+              <td>
+                <span 
+                  className={`badge badge-${mov.status || 'processed'}`}
+                  title={mov.failureReason || ''}
+                  style={mov.status === 'failed' ? { cursor: 'help' } : {}}
+                >
+                  {mov.status === "pending" ? "Pendiente" : mov.status === "failed" ? "Fallido" : "Procesado"}
+                </span>
+              </td>
             </>
           )}
         />
+
       )}
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Registrar Movimiento">
