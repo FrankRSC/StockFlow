@@ -113,23 +113,23 @@ export default function ProductsPage() {
   };
 
   return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
-        <h1 className="page-title">Products</h1>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", width: "100%" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <h1 className="page-title" style={{ marginBottom: 0 }}>Productos</h1>
         <Button onClick={openModal}>
-          + Add Product
+          + Añadir Producto
         </Button>
       </div>
 
       {loading ? (
-        <p>Loading products...</p>
+        <p>Cargando productos...</p>
       ) : products.length === 0 ? (
         <p style={{ textAlign: "center", padding: "2rem", color: "var(--gray-text)" }}>
-          No products found. Create one to get started.
+          No se encontraron productos. Crea uno para comenzar.
         </p>
       ) : (
         <Table 
-          headers={["SKU", "Name", "Category", "Price", "Actions"]}
+          headers={["SKU", "Nombre", "Categoría", "Precio", "Acciones"]}
           data={products}
           renderRow={(product) => (
             <>
@@ -139,10 +139,10 @@ export default function ProductsPage() {
               <td>${product.price.toFixed(2)}</td>
               <td style={{ display: "flex", gap: "0.5rem" }}>
                 <Button variant="secondary" onClick={() => handleEdit(product)}>
-                  Edit
+                  Editar
                 </Button>
                 <Button variant="danger" onClick={() => confirmDelete(product)}>
-                  Delete
+                  Eliminar
                 </Button>
               </td>
             </>
@@ -154,10 +154,10 @@ export default function ProductsPage() {
       <Modal 
         isOpen={isModalOpen} 
         onClose={closeModal} 
-        title={editingProduct ? "Edit Product" : "Add Product"}
+        title={editingProduct ? "Editar Producto" : "Añadir Producto"}
       >
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
+        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div className="form-group" style={{ display: "flex", flexDirection: "column" }}>
             <label>SKU</label>
             <input
               type="text"
@@ -167,8 +167,8 @@ export default function ProductsPage() {
               required
             />
           </div>
-          <div className="form-group">
-            <label>Name</label>
+          <div className="form-group" style={{ display: "flex", flexDirection: "column" }}>
+            <label>Nombre</label>
             <input
               type="text"
               name="name"
@@ -177,8 +177,8 @@ export default function ProductsPage() {
               required
             />
           </div>
-          <div className="form-group">
-            <label>Category</label>
+          <div className="form-group" style={{ display: "flex", flexDirection: "column" }}>
+            <label>Categoría</label>
             <input
               type="text"
               name="category"
@@ -187,8 +187,8 @@ export default function ProductsPage() {
               required
             />
           </div>
-          <div className="form-group">
-            <label>Price</label>
+          <div className="form-group" style={{ display: "flex", flexDirection: "column" }}>
+            <label>Precio</label>
             <input
               type="number"
               name="price"
@@ -199,12 +199,12 @@ export default function ProductsPage() {
               step="0.01"
             />
           </div>
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "flex-end", marginTop: "2rem" }}>
+          <div style={{ display: "flex", gap: "1rem", justifyContent: "flex-end", marginTop: "1rem" }}>
             <Button type="button" variant="secondary" onClick={closeModal}>
-              Cancel
+              Cancelar
             </Button>
             <Button type="submit" variant="primary">
-              {editingProduct ? "Save Changes" : "Create"}
+              {editingProduct ? "Guardar Cambios" : "Crear"}
             </Button>
           </div>
         </form>
@@ -214,17 +214,17 @@ export default function ProductsPage() {
       <Modal 
         isOpen={isDeleteModalOpen} 
         onClose={() => setIsDeleteModalOpen(false)} 
-        title="Confirm Delete"
+        title="Confirmar Eliminación"
       >
         <p style={{ marginBottom: "2rem", color: "var(--gray-text)" }}>
-          Are you sure you want to delete the product <strong>{productToDelete?.name}</strong>? This action cannot be undone.
+          ¿Estás seguro de que deseas eliminar el producto <strong>{productToDelete?.name}</strong>? Esta acción no se puede deshacer.
         </p>
         <div style={{ display: "flex", gap: "1rem", justifyContent: "flex-end" }}>
           <Button variant="secondary" onClick={() => setIsDeleteModalOpen(false)}>
-            Cancel
+            Cancelar
           </Button>
           <Button variant="danger" onClick={handleDelete}>
-            Delete
+            Eliminar
           </Button>
         </div>
       </Modal>
