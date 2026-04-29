@@ -2,6 +2,11 @@
 
 Sistema de gestión de inventario para el control de productos, sucursales, stock y movimientos de mercancía.
 
+🚀 **Despliegue en producción:** [StockFlow en Vercel](https://stock-flow-omega.vercel.app/login)
+
+> ⚠️ **Nota sobre el plan gratuito de Render:** Debido a las limitaciones del plan gratuito de Render, el backend puede entrar en modo de hibernación por inactividad. Si es la primera vez que accedes a la aplicación o tras un periodo de inactividad, la primera petición puede tardar entre **1 y 10 minutos** en responder mientras el servidor se "despierta".
+
+
 ## Requisitos Previos
 
 - **Node.js** (v18 o superior)
@@ -13,6 +18,90 @@ Sistema de gestión de inventario para el control de productos, sucursales, stoc
 El proyecto está dividido en dos partes principales:
 - `backend/`: Servidor API REST construido con Node.js, Express y Mongoose.
 - `frontend/`: Aplicación web interactiva construida con Next.js.
+
+## Arquitectura del Sistema
+
+```mermaid
+graph TD
+    subgraph Cliente [Lado del Cliente]
+        Browser["Navegador Web"]
+        LocalStorage["LocalStorage (Guarda JWT Token)"]
+    end
+
+    subgraph Frontend [Next.js - Vercel]
+        subgraph UI Components [Vistas React]
+            LoginView["/login"]
+            DashboardView["/dashboard"]
+            ProductsView["/products"]
+            BranchesView["/branches"]
+            MovementsView["/movements"]
+            ReportsView["/reports"]
+        end
+        subgraph API Proxies [Rutas Next.js]
+            AuthProxy["/api/auth/*"]
+            ProductsProxy["/api/products/*"]
+            BranchesProxy["/api/branches/*"]
+            StocksProxy["/api/stocks/*"]
+            MovementsProxy["/api/movements/*"]
+        end
+    end
+
+    subgraph Backend [Node.js/Express - Render]
+        subgraph Middlewares
+            authJwt["authJwt (Verificación Token)"]
+        end
+        subgraph Controladores
+            AuthController["auth.controller.js"]
+            ProductController["product.controller.js"]
+            BranchController["branch.controller.js"]
+            StockController["stock.controller.js"]
+            MovementController["movement.controller.js"]
+        end
+        subgraph Modelos Mongoose
+            UserModel["User.js"]
+            ProductModel["Product.js"]
+            BranchModel["Branch.js"]
+            StockModel["Stock.js"]
+            MovementModel["Movement.js"]
+        end
+        Worker["worker.js (Procesa Movimientos en segundo plano)"]
+    end
+
+    subgraph Storage [Base de Datos]
+        MongoDB[("MongoDB Atlas")]
+    end
+
+    Browser -->|Acceso y Eventos| UI Components
+    Browser -->|Lee/Escribe| LocalStorage
+    
+    UI Components -->|Peticiones con Token| API Proxies
+    
+    AuthProxy -->|Peticiones REST| AuthController
+    ProductsProxy -->|Peticiones REST + Token| authJwt
+    BranchesProxy -->|Peticiones REST + Token| authJwt
+    StocksProxy -->|Peticiones REST + Token| authJwt
+    MovementsProxy -->|Peticiones REST + Token| authJwt
+    
+    authJwt -->|Validado| ProductController
+    authJwt -->|Validado| BranchController
+    authJwt -->|Validado| StockController
+    authJwt -->|Validado| MovementController
+    
+    AuthController -->|Operaciones| UserModel
+    ProductController -->|Operaciones| ProductModel
+    BranchController -->|Operaciones| BranchModel
+    StockController -->|Operaciones| StockModel
+    MovementController -->|Operaciones| MovementModel
+    
+    UserModel -->|Persistencia| MongoDB
+    ProductModel -->|Persistencia| MongoDB
+    BranchModel -->|Persistencia| MongoDB
+    StockModel -->|Persistencia| MongoDB
+    MovementModel -->|Persistencia| MongoDB
+    
+    Worker -->|Revisa y Actualiza Estados| MovementModel
+    Worker -->|Afecta| StockModel
+```
 
 ---
 
