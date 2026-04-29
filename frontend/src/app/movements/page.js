@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Modal from "@/components/Modal";
 import Button from "@/components/Button";
 import Table from "@/components/Table";
+import Badge from "@/components/Badge";
 
 export default function MovementsPage() {
   const [movements, setMovements] = useState([]);
@@ -180,21 +181,16 @@ export default function MovementsPage() {
               <td>{new Date(mov.date || mov.createdAt).toLocaleString()}</td>
               <td style={{ fontWeight: "600" }}>{mov.product?.name || getProductName(mov.product)}</td>
               <td>
-                <span className={`badge badge-${mov.type}`}>
-                  {mov.type === "in" ? "Entrada" : mov.type === "out" ? "Salida" : mov.type === "adjustment" ? "Ajuste" : "Transferencia"}
-                </span>
+                <Badge type={mov.type} />
               </td>
               <td>{mov.originBranch?.name || getBranchName(mov.originBranch?._id || mov.originBranch)}</td>
               <td>{mov.destinationBranch?.name || getBranchName(mov.destinationBranch?._id || mov.destinationBranch)}</td>
               <td>{mov.quantity}</td>
               <td>
-                <span 
-                  className={`badge badge-${mov.status || 'processed'}`}
+                <Badge 
+                  status={mov.status} 
                   title={mov.failureReason || ''}
-                  style={mov.status === 'failed' ? { cursor: 'help' } : {}}
-                >
-                  {mov.status === "pending" ? "Pendiente" : mov.status === "failed" ? "Fallido" : "Procesado"}
-                </span>
+                />
               </td>
             </>
           )}
