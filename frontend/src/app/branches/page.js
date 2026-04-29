@@ -106,23 +106,23 @@ export default function BranchesPage() {
   };
 
   return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
-        <h1 className="page-title">Branches</h1>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", width: "100%" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <h1 className="page-title" style={{ marginBottom: 0 }}>Sucursales</h1>
         <Button onClick={openModal}>
-          + Add Branch
+          + Añadir Sucursal
         </Button>
       </div>
 
       {loading ? (
-        <p>Loading branches...</p>
+        <p>Cargando sucursales...</p>
       ) : branches.length === 0 ? (
         <p style={{ textAlign: "center", padding: "2rem", color: "var(--gray-text)" }}>
-          No branches found. Create one to get started.
+          No se encontraron sucursales. Crea una para comenzar.
         </p>
       ) : (
         <Table 
-          headers={["Name", "Location", "Actions"]}
+          headers={["Nombre", "Ubicación", "Acciones"]}
           data={branches}
           renderRow={(branch) => (
             <>
@@ -130,10 +130,10 @@ export default function BranchesPage() {
               <td>{branch.location}</td>
               <td style={{ display: "flex", gap: "0.5rem" }}>
                 <Button variant="secondary" onClick={() => handleEdit(branch)}>
-                  Edit
+                  Editar
                 </Button>
                 <Button variant="danger" onClick={() => confirmDelete(branch)}>
-                  Delete
+                  Eliminar
                 </Button>
               </td>
             </>
@@ -145,11 +145,11 @@ export default function BranchesPage() {
       <Modal 
         isOpen={isModalOpen} 
         onClose={closeModal} 
-        title={editingBranch ? "Edit Branch" : "Add Branch"}
+        title={editingBranch ? "Editar Sucursal" : "Añadir Sucursal"}
       >
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Name</label>
+        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div className="form-group" style={{ display: "flex", flexDirection: "column" }}>
+            <label>Nombre</label>
             <input
               type="text"
               name="name"
@@ -158,8 +158,8 @@ export default function BranchesPage() {
               required
             />
           </div>
-          <div className="form-group">
-            <label>Location</label>
+          <div className="form-group" style={{ display: "flex", flexDirection: "column" }}>
+            <label>Ubicación</label>
             <input
               type="text"
               name="location"
@@ -168,12 +168,12 @@ export default function BranchesPage() {
               required
             />
           </div>
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "flex-end", marginTop: "2rem" }}>
+          <div style={{ display: "flex", gap: "1rem", justifyContent: "flex-end", marginTop: "1rem" }}>
             <Button type="button" variant="secondary" onClick={closeModal}>
-              Cancel
+              Cancelar
             </Button>
             <Button type="submit" variant="primary">
-              {editingBranch ? "Save Changes" : "Create"}
+              {editingBranch ? "Guardar Cambios" : "Crear"}
             </Button>
           </div>
         </form>
@@ -183,17 +183,17 @@ export default function BranchesPage() {
       <Modal 
         isOpen={isDeleteModalOpen} 
         onClose={() => setIsDeleteModalOpen(false)} 
-        title="Confirm Delete"
+        title="Confirmar Eliminación"
       >
         <p style={{ marginBottom: "2rem", color: "var(--gray-text)" }}>
-          Are you sure you want to delete the branch <strong>{branchToDelete?.name}</strong>? This action cannot be undone.
+          ¿Estás seguro de que deseas eliminar la sucursal <strong>{branchToDelete?.name}</strong>? Esta acción no se puede deshacer.
         </p>
         <div style={{ display: "flex", gap: "1rem", justifyContent: "flex-end" }}>
           <Button variant="secondary" onClick={() => setIsDeleteModalOpen(false)}>
-            Cancel
+            Cancelar
           </Button>
           <Button variant="danger" onClick={handleDelete}>
-            Delete
+            Eliminar
           </Button>
         </div>
       </Modal>

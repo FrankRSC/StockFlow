@@ -107,7 +107,7 @@ export default function StocksPage() {
   };
 
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", width: "100%" }}>
       <div
         style={{
           display: "flex",

@@ -160,7 +160,7 @@ export default function MovementsPage() {
   };
 
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", width: "100%" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
         <h1 className="page-title">Movimientos de Inventario</h1>
         <Button onClick={openModal}>+ Registrar Movimiento</Button>
@@ -209,9 +209,9 @@ export default function MovementsPage() {
           <div className="form-group">
             <label>Tipo de Movimiento</label>
             <select name="type" value={formData.type} onChange={handleInputChange}>
-              <option value="in">Entrada (In)</option>
-              <option value="out">Salida (Out)</option>
-              <option value="transfer">Transferencia (Transfer)</option>
+              <option value="in">Entrada</option>
+              <option value="out">Salida</option>
+              <option value="transfer">Transferencia</option>
             </select>
           </div>
 
