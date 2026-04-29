@@ -14,7 +14,7 @@ branchCtrl.getBranches = async (req, res) => {
 branchCtrl.getBranch = async (req, res) => {
   try {
     const branch = await querys.getBranchById(req.params.id);
-    if (!branch) return res.status(404).json({ message: 'Branch not found' });
+    if (!branch) return res.status(404).json({ message: 'Sucursal no encontrada' });
     res.json(branch);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -38,7 +38,7 @@ branchCtrl.updateBranch = async (req, res) => {
       req.params.id,
       { name, location }
     );
-    if (!updatedBranch) return res.status(404).json({ message: 'Branch not found' });
+    if (!updatedBranch) return res.status(404).json({ message: 'Sucursal no encontrada' });
     res.json(updatedBranch);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -48,8 +48,8 @@ branchCtrl.updateBranch = async (req, res) => {
 branchCtrl.deleteBranch = async (req, res) => {
   try {
     const deletedBranch = await querys.deleteBranch(req.params.id);
-    if (!deletedBranch) return res.status(404).json({ message: 'Branch not found' });
-    res.json({ message: 'Branch deleted successfully' });
+    if (!deletedBranch) return res.status(404).json({ message: 'Sucursal no encontrada' });
+    res.json({ message: 'Sucursal eliminada exitosamente' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
