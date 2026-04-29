@@ -30,8 +30,13 @@ const processMovements = async () => {
           );
 
           if (!updatedStock) {
-            mov.status = 'failed';
-            mov.failureReason = 'Insufficient stock in origin branch';
+            if (mov.attempts < 1) {
+              mov.attempts += 1;
+              mov.failureReason = 'Insufficient stock (Retry scheduled)';
+            } else {
+              mov.status = 'failed';
+              mov.failureReason = 'Insufficient stock in origin branch';
+            }
           } else {
             mov.status = 'processed';
           }
@@ -43,8 +48,13 @@ const processMovements = async () => {
           );
 
           if (!updatedOriginStock) {
-            mov.status = 'failed';
-            mov.failureReason = 'Insufficient stock in origin branch';
+            if (mov.attempts < 1) {
+              mov.attempts += 1;
+              mov.failureReason = 'Insufficient stock in origin branch (Retry scheduled)';
+            } else {
+              mov.status = 'failed';
+              mov.failureReason = 'Insufficient stock in origin branch';
+            }
           } else {
             await Stock.findOneAndUpdate(
               { product: mov.product, branch: mov.destinationBranch },
@@ -62,8 +72,13 @@ const processMovements = async () => {
         await mov.save();
         console.log(`Movement ${mov._id} processed with status: ${mov.status}`);
       } catch (err) {
-        mov.status = 'failed';
-        mov.failureReason = err.message;
+        if (mov.attempts < 1) {
+          mov.attempts += 1;
+          mov.failureReason = `${err.message} (Retry scheduled)`;
+        } else {
+          mov.status = 'failed';
+          mov.failureReason = err.message;
+        }
         await mov.save();
         console.error(`Movement ${mov._id} failed:`, err);
       }

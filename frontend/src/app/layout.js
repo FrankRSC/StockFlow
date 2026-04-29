@@ -42,6 +42,10 @@ export default function RootLayout({ children }) {
               <Link href="/movements" className="nav-link">
                 Movements
               </Link>
+              <Link href="/reports" className="nav-link">
+                Reports
+              </Link>
+
             </nav>
           </aside>
           <main className="main-content">

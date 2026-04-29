@@ -1,3 +1,18 @@
+Se uso VSCode como IDE
+Extenciones utilizadas:
+- ES7+ React/Redux/React-Native snippets
+- Prettier - Code formatter
+- Docker
+
+Herramientas utilizadas:
+- Docker Desktop
+- Git
+- Vercel
+- Render
+- Postman
+
+Las deciciones mas importantes tomadas fueron el si hacer frontend y backend por separado, si hacer primero el backend o el frontend, y si era necesario crear un modelo de stock o manejarlo en el mismo de productos.
+
 Se creo la configuracion inicial del proyecto.
 El backend fue creado con un boilerplalate de express que ya tenia de proyectos pasados, esto apra facilitar el setup del servidor.
 Se creo el proyeco de frontend con NextJS utilizando CSS vanilla.
@@ -10,6 +25,7 @@ Usuarios
 Productos
 Sucursales
 Movimientos
+Stocks
 
 La decision de tener endpoint por entidades se tomo por que es mas facil manejar las rutas y controladores independientes y mas limpio en la arquitectura que suelo utilizar para este tipo de proyectos.
 
@@ -29,3 +45,6 @@ Ladecicion de hacerlo con Polling fue por que es mas facil y rapido que configur
 
 Lo siguiente fue la generacion del dashboard en el frontent para mostrar los datos requeridos, utilizando los endpoints que ya se tenian construidos.
 Tambien se realzaron cambios en ciertas partes del frontend para crear componentes y reutilizarlos y asi no tener codigo repetido, lo cual tambien facilita el uso en el proyecto.
+
+
+Se implementaron
