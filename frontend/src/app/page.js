@@ -136,7 +136,7 @@ export default function DashboardPage() {
   const failedCount = movements.filter(m => m.status === "failed").length;
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", width: "100%", maxWidth: "1200px", margin: "0 auto" }}>
       <div style={{ marginBottom: "2.5rem" }}>
         <h1 className="page-title">Dashboard Operativo</h1>
         <p style={{ color: "var(--gray-text)" }}>
