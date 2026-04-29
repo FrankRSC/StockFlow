@@ -23,47 +23,47 @@ movementCtrl.createMovement = async (req, res) => {
     const { type, product, quantity, originBranch, destinationBranch } = req.body;
 
     if (!['in', 'out', 'transfer'].includes(type)) {
-      return res.status(400).json({ message: 'Invalid movement type' });
+      return res.status(400).json({ message: 'Tipo de movimiento inválido' });
     }
 
     if (!quantity || quantity <= 0) {
-      return res.status(400).json({ message: 'Quantity must be greater than 0' });
+      return res.status(400).json({ message: 'La cantidad debe ser mayor a 0' });
     }
 
     // Verify product exists
     const productExists = await Product.findById(product);
     if (!productExists) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ message: 'Producto no encontrado' });
     }
 
     if (type === 'in') {
       if (!destinationBranch) {
-        return res.status(400).json({ message: 'Destination branch is required for entry' });
+        return res.status(400).json({ message: 'La sucursal de destino es requerida para la entrada' });
       }
       const branchExists = await Branch.findById(destinationBranch);
       if (!branchExists) {
-        return res.status(404).json({ message: 'Destination branch not found' });
+        return res.status(404).json({ message: 'Sucursal de destino no encontrada' });
       }
     } else if (type === 'out') {
       if (!originBranch) {
-        return res.status(400).json({ message: 'Origin branch is required for exit' });
+        return res.status(400).json({ message: 'La sucursal de origen es requerida para la salida' });
       }
       const branchExists = await Branch.findById(originBranch);
       if (!branchExists) {
-        return res.status(404).json({ message: 'Origin branch not found' });
+        return res.status(404).json({ message: 'Sucursal de origen no encontrada' });
       }
     } else if (type === 'transfer') {
       if (!originBranch || !destinationBranch) {
-        return res.status(400).json({ message: 'Both origin and destination branches are required for transfer' });
+        return res.status(400).json({ message: 'Tanto la sucursal de origen como la de destino son requeridas para la transferencia' });
       }
       if (originBranch.toString() === destinationBranch.toString()) {
-        return res.status(400).json({ message: 'Origin and destination branches must be different' });
+        return res.status(400).json({ message: 'La sucursal de origen y destino deben ser diferentes' });
       }
 
       const originExists = await Branch.findById(originBranch);
       const destExists = await Branch.findById(destinationBranch);
       if (!originExists || !destExists) {
-        return res.status(404).json({ message: 'One or both branches not found' });
+        return res.status(404).json({ message: 'Una o ambas sucursales no fueron encontradas' });
       }
     }
 

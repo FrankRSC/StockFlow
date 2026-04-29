@@ -46,5 +46,8 @@ Ladecicion de hacerlo con Polling fue por que es mas facil y rapido que configur
 Lo siguiente fue la generacion del dashboard en el frontent para mostrar los datos requeridos, utilizando los endpoints que ya se tenian construidos.
 Tambien se realzaron cambios en ciertas partes del frontend para crear componentes y reutilizarlos y asi no tener codigo repetido, lo cual tambien facilita el uso en el proyecto.
 
+Se implemento el retry y los reportes como se pedia en las especificaciones.
 
-Se implementaron
+Deicidi cambiar todo a Flexbox porque es mas facil utilizarlo para mi.
+
+Añadi auth con JWT para un superusuario.

@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 
-const BACKEND_URL = "http://127.0.0.1:5000/api/movements/report";
+const BACKEND_URL = `${process.env.BACKEND_URL }/api/movements/report`;
 
 export async function GET(request) {
   try {
+    const token = request.headers.get("authorization");
     const { searchParams } = new URL(request.url);
     const startDate = searchParams.get("startDate");
     const endDate = searchParams.get("endDate");
@@ -12,12 +13,16 @@ export async function GET(request) {
     if (startDate) url.searchParams.append("startDate", startDate);
     if (endDate) url.searchParams.append("endDate", endDate);
 
+    const headers = {};
+    if (token) headers["Authorization"] = token;
+
     const res = await fetch(url.toString(), {
       cache: "no-store",
+      headers
     });
     const data = await res.json();
-    return NextResponse.json(data);
+    return NextResponse.json(data, { status: res.status });
   } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch movements report" }, { status: 500 });
+    return NextResponse.json({ error: "Error al obtener el reporte de movimientos" }, { status: 500 });
   }
 }

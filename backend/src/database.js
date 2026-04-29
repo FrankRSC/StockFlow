@@ -1,5 +1,14 @@
-//importa mongoose
+// importa mongoose
 const mongoose = require('mongoose');
+const dns = require('dns');
+
+// Intenta usar servidores DNS públicos para resolver problemas con registros SRV de Atlas
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (error) {
+  console.warn('No se pudieron configurar los servidores DNS públicos:', error.message);
+}
+
 mongoose.set('strictQuery', false);
 
 const URL = '';
