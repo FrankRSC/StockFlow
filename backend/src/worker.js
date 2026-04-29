@@ -32,10 +32,10 @@ const processMovements = async () => {
           if (!updatedStock) {
             if (mov.attempts < 1) {
               mov.attempts += 1;
-              mov.failureReason = 'Insufficient stock (Retry scheduled)';
+              mov.failureReason = 'Stock insuficiente (Reintento programado)';
             } else {
               mov.status = 'failed';
-              mov.failureReason = 'Insufficient stock in origin branch';
+              mov.failureReason = 'Stock insuficiente en la sucursal de origen';
             }
           } else {
             mov.status = 'processed';
@@ -50,10 +50,10 @@ const processMovements = async () => {
           if (!updatedOriginStock) {
             if (mov.attempts < 1) {
               mov.attempts += 1;
-              mov.failureReason = 'Insufficient stock in origin branch (Retry scheduled)';
+              mov.failureReason = 'Stock insuficiente en la sucursal de origen (Reintento programado)';
             } else {
               mov.status = 'failed';
-              mov.failureReason = 'Insufficient stock in origin branch';
+              mov.failureReason = 'Stock insuficiente en la sucursal de origen';
             }
           } else {
             await Stock.findOneAndUpdate(
@@ -74,7 +74,7 @@ const processMovements = async () => {
       } catch (err) {
         if (mov.attempts < 1) {
           mov.attempts += 1;
-          mov.failureReason = `${err.message} (Retry scheduled)`;
+          mov.failureReason = `${err.message} (Reintento programado)`;
         } else {
           mov.status = 'failed';
           mov.failureReason = err.message;

@@ -14,7 +14,7 @@ productCtrl.getProducts = async (req, res) => {
 productCtrl.getProduct = async (req, res) => {
   try {
     const product = await querys.getProductById(req.params.id);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
+    if (!product) return res.status(404).json({ message: 'Producto no encontrado' });
     res.json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -38,7 +38,7 @@ productCtrl.updateProduct = async (req, res) => {
       req.params.id,
       { sku, name, price, category }
     );
-    if (!updatedProduct) return res.status(404).json({ message: 'Product not found' });
+    if (!updatedProduct) return res.status(404).json({ message: 'Producto no encontrado' });
     res.json(updatedProduct);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -48,8 +48,8 @@ productCtrl.updateProduct = async (req, res) => {
 productCtrl.deleteProduct = async (req, res) => {
   try {
     const deletedProduct = await querys.deleteProduct(req.params.id);
-    if (!deletedProduct) return res.status(404).json({ message: 'Product not found' });
-    res.json({ message: 'Product deleted successfully' });
+    if (!deletedProduct) return res.status(404).json({ message: 'Producto no encontrado' });
+    res.json({ message: 'Producto eliminado exitosamente' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
