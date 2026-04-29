@@ -85,4 +85,63 @@ movementCtrl.createMovement = async (req, res) => {
   }
 };
 
+movementCtrl.getMovementReport = async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+    const query = { status: 'processed' };
+
+    if (startDate || endDate) {
+      query.createdAt = {};
+      if (startDate) query.createdAt.$gte = new Date(startDate);
+      if (endDate) {
+        const end = new Date(endDate);
+        end.setHours(23, 59, 59, 999);
+        query.createdAt.$lte = end;
+      }
+    }
+
+    const movements = await Movement.find(query)
+      .populate('originBranch')
+      .populate('destinationBranch');
+
+    const reportMap = {};
+
+    movements.forEach(mov => {
+      const qty = mov.quantity;
+
+      const addData = (branch, typeStr) => {
+        if (!branch) return;
+        const key = `${branch._id}_${typeStr}`;
+        if (!reportMap[key]) {
+          reportMap[key] = {
+            branchId: branch._id,
+            branchName: branch.name,
+            type: typeStr,
+            count: 0,
+            quantity: 0
+          };
+        }
+        reportMap[key].count += 1;
+        reportMap[key].quantity += qty;
+      };
+
+      if (mov.type === 'in') {
+        addData(mov.destinationBranch, 'in');
+      } else if (mov.type === 'out') {
+        addData(mov.originBranch, 'out');
+      } else if (mov.type === 'transfer') {
+        addData(mov.originBranch, 'transfer');
+        addData(mov.destinationBranch, 'transfer');
+      } else if (mov.type === 'adjustment') {
+        addData(mov.originBranch || mov.destinationBranch, 'adjustment');
+      }
+    });
+
+    res.json(Object.values(reportMap));
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = movementCtrl;
+
