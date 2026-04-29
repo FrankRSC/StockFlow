@@ -8,7 +8,8 @@ const movementSchema = new Schema({
   originBranch: { type: ObjectId, ref: 'Branch' },
   destinationBranch: { type: ObjectId, ref: 'Branch' },
   status: { type: String, enum: ['pending', 'processed', 'failed'], default: 'pending' },
-  failureReason: { type: String }
+  failureReason: { type: String },
+  attempts: { type: Number, default: 0 }
 }, {
   timestamps: true
 });
